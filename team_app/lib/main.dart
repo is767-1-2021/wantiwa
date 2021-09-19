@@ -29,14 +29,14 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize:35,
-                  color: Colors.brown,
+                  color: Colors.indigo.shade900,
                 ),),
 
               Container(
                 height: MediaQuery.of(context).size.height /2,
                 decoration: BoxDecoration(
                   image: DecorationImage( 
-                    image: AssetImage("image/shopping.png")
+                    image: AssetImage("image/mall.png")
                   )
                 ),
               ),
@@ -49,10 +49,8 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                       },
+                      color: Color(0xFFFF8E1C),
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.brown
-                        ),
                         borderRadius: BorderRadius.circular(30)
                       ),
                       child: Text( 
@@ -60,7 +58,7 @@ class HomePage extends StatelessWidget {
                       style: TextStyle( 
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Colors.brown
+                        color: Colors.white
                     ),
                       ),
                     ),
@@ -71,14 +69,14 @@ class HomePage extends StatelessWidget {
                     onPressed: (){ 
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                     },
-                    color: Color(0xFFF3E2E7),
+                    color: Color(0xFF2438BB),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)
                     ),
                     child: Text(
                       "SIGN UP",
                     style: TextStyle(
-                      color: Colors.brown,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18 
                       ),

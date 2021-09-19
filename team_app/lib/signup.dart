@@ -5,6 +5,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: Text("SignUp"),
       ),
       body: Container(
@@ -13,8 +14,21 @@ class SignUpPage extends StatelessWidget {
           child: Form(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "WeDeal",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize:30,
+                              color: Colors.black54),),
+                              SizedBox(height:20,),
+                              Text("",
+                              style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize:20,
+                              color: Colors.black87),),
+              
                   //Text("Name", style: TextStyle(fontSize: 16)),
                   TextFormField(
                     decoration: InputDecoration(
@@ -97,7 +111,10 @@ class SignUpPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: Text("Sign Up", style: TextStyle(fontSize: 20)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.indigo.shade900
+                      ),
+                      child: Text("Sign Up", style: TextStyle(fontSize: 18)),
                       onPressed: () {},
                     ),
                   )
