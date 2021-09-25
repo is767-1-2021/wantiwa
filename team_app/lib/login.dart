@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_app/signup.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -35,6 +36,7 @@ class LoginPage extends StatelessWidget {
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email_outlined),
                       labelText: 'Email',
                       hintText: 'Please input your Email',
                         contentPadding:
@@ -52,6 +54,8 @@ class LoginPage extends StatelessWidget {
                   //Text("Password", style: TextStyle(fontSize: 16)),
                   TextFormField(obscureText: true,
                   decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.lock_clock_outlined),
+                    suffixIcon: Icon(Icons.visibility_off_outlined),
                       labelText: 'Password',
                       hintText: 'Please input your Password',
                         contentPadding:
@@ -63,15 +67,17 @@ class LoginPage extends StatelessWidget {
                             borderSide:
                                 BorderSide(color: Colors.grey.shade400)))),
                         SizedBox(
-                          height:10
+                          height:5
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[ 
-                            Text("Forgot Password?",
-                            style: TextStyle (
-                              fontSize:14, 
-                              color: Colors.black54),),
+                            TextButton(
+                            style: TextButton.styleFrom(
+                            primary: Colors.black45,
+                            textStyle:const TextStyle(fontSize:14, color: Colors.black54)
+                            ), onPressed: () {},
+                            child: const Text("Forgot Password?"),),
                           ],
                         ), 
                         SizedBox(
@@ -88,19 +94,86 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                          height:80
+                          height:20
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[ 
-                            Text("or continue with",
+                            Text("Don't have an account?",
                             style: TextStyle (
-                              fontSize:18, 
+                              fontSize:16, 
                               color: Colors.black54),),
+
+                            TextButton(
+                            style: TextButton.styleFrom(
+                            primary: Colors.blueAccent,
+                            textStyle:const TextStyle(fontSize:14, color: Colors.blueAccent)
+                            ), onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));},
+                            child: const Text("Sign Up"),),
+                            ],
+                        ), 
+                        SizedBox(height: 40,),
+                            Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[ 
+                            Text("- Or -",
+                            style: TextStyle (
+                              fontSize:14, 
+                              color: Colors.black54),),
+                              SizedBox(
+                          height:10),
+                          Text("Sign In with",
+                          style: TextStyle (
+                            fontSize:14, 
+                              color: Colors.black54),), 
+                              SizedBox(height: 30,),
+                          //ใส่รูป
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget> [ 
+                          Container(
+                            height: 55.0,
+                            width: 55.0,
+                            decoration: BoxDecoration(
+                  image: DecorationImage( 
+                    image: AssetImage("image/facebook.png"),
+                  )
+                ),
+              ),
+                          Container(
+                            height: 55.0,
+                            width: 55.0,
+                            decoration: BoxDecoration(
+                  image: DecorationImage( 
+                    image: AssetImage("image/google.png"),
+                  )
+                ),
+              ),
+
+              Container(
+                            height: 55.0,
+                            width: 55.0,
+                            decoration: BoxDecoration(
+                  image: DecorationImage( 
+                    image: AssetImage("image/line.png"),
+                  )
+                ),
+              ),
+
+              Container(
+                            height: 55.0,
+                            width: 55.0,
+                            decoration: BoxDecoration(
+                  image: DecorationImage( 
+                    image: AssetImage("image/twitter.png"),
+                  )
+                ),
+              ),
                           ],
                         ), 
+                          
+                        ]),
                         ],
-                      ),
-                ),),),),);
+                        ),),))));
 }
 }
