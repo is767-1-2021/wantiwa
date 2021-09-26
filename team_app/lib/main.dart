@@ -1,12 +1,13 @@
 // ignore: unused_import
 import 'package:flutter/material.dart';
 import 'package:team_app/login.dart';
+import 'package:team_app/screen/home_screen.dart';
 import 'package:team_app/signup.dart';
 
 void main () {
 runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: HomePage(),
+  home: HomeScreen(),
 )); 
 }
 
