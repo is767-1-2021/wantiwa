@@ -7,9 +7,9 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar
       (backgroundColor: Colors.orange,
-        title: Text("Login"),
-      ),
-      body: Container(
+        title: Text(""),),
+
+                 body: Container(
         child: Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Form(
@@ -174,6 +174,5 @@ class LoginPage extends StatelessWidget {
                           
                         ]),
                         ],
-                        ),),))));
-}
+                        ),),))));}
 }
