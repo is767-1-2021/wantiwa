@@ -6,13 +6,36 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.deepPurple[700],
         title: Text(""),
       ),
-      body: Container(
+      body: MyCustomForm());
+  }
+}
+      
+class MyCustomForm extends StatefulWidget {
+  
+  @override
+  _MyCustomFormState createState() => _MyCustomFormState();
+}
+
+class _MyCustomFormState extends State<MyCustomForm> {
+final _formKey = GlobalKey<FormState> ();
+String? _name;
+String? _phone;
+String? _email;
+String? _password;
+String? _confirm;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Form(
+          //child: Form(
             child: SingleChildScrollView(
               child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,7 +46,7 @@ class SignUpPage extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               fontSize:30,
                               color: Colors.black54),),
-                              SizedBox(height:30,),
+                              SizedBox(height:20,),
                               
               
                   //Text("Name", style: TextStyle(fontSize: 14)),
@@ -40,9 +63,19 @@ class SignUpPage extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.grey.shade400))),
-                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Name';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _name = value;
+                  }),
+                  
                   SizedBox(
-                    height: 10,
+                    height: 7,
                   ),
                   //Text("Phone Number", style: TextStyle(fontSize: 14)),
                   TextFormField(decoration: InputDecoration(
@@ -56,9 +89,21 @@ class SignUpPage extends StatelessWidget {
                         ),
                         border: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.grey.shade400))),),
+                                BorderSide(color: Colors.grey.shade400))),
+                                
+                                validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Phone Number';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _phone = value;
+                  }),
+
                   SizedBox(
-                    height: 10,
+                    height: 7,
                   ),
                   //Text("Email", style: TextStyle(fontSize: 14)),
                   TextFormField(
@@ -75,9 +120,19 @@ class SignUpPage extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.grey.shade400))),
-                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Email';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _email = value;
+                  }),
+                  
                   SizedBox(
-                    height: 10,
+                    height: 7,
                   ),
                   //Text("Password", style: TextStyle(fontSize: 14)),
                   TextFormField(obscureText: true,
@@ -93,9 +148,21 @@ class SignUpPage extends StatelessWidget {
                         ),
                         border: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.grey.shade400)))),
+                                BorderSide(color: Colors.grey.shade400))),
+                                
+                                validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Password';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _password = value;
+                  }),
+
                   SizedBox(
-                    height: 10,
+                    height: 7,
                   ),
                   //Text("Confirm Password", style: TextStyle(fontSize: 14)),
                   TextFormField(obscureText: true,
@@ -111,16 +178,29 @@ class SignUpPage extends StatelessWidget {
                         ),
                         border: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.grey.shade400)))),
+                                BorderSide(color: Colors.grey.shade400))),
+                                
+                                validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Confirm Password';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _password = value;
+                  }),
+
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.indigo.shade900
+                        primary: Colors.deepPurple[700]
                       ),
                       child: Text("Sign Up", style: TextStyle(fontSize: 18)),
-                      onPressed: () {},
-                    ),
+                      onPressed: () {if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();};
+                      }),
                   ),
                 SizedBox(
                           height:10
@@ -135,8 +215,8 @@ class SignUpPage extends StatelessWidget {
 
                             TextButton(
                             style: TextButton.styleFrom(
-                            primary: Colors.blueAccent,
-                            textStyle:const TextStyle(fontSize:16, color: Colors.blueAccent)
+                            primary: Colors.deepPurple,
+                            textStyle:const TextStyle(fontSize:16, color: Colors.deepPurple)
                             ), onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));},
                             child: const Text("Sign In"),),],
                             ),
@@ -205,7 +285,6 @@ class SignUpPage extends StatelessWidget {
                         ],
               
         )))),
-          ),
-        );
+          );
   }
 }

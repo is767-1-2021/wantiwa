@@ -4,10 +4,12 @@ import 'package:team_app/login.dart';
 import 'package:team_app/screen/home_screen.dart';
 import 'package:team_app/signup.dart';
 
+
+
 void main () {
 runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: HomeScreen(),
+  home: LoginPage(),
 )); 
 }
 
@@ -50,7 +52,7 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                       },
-                      color: Color(0xFFFF8E1C),
+                      color: Color(0xff8455b3),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)
                       ),
@@ -70,7 +72,7 @@ class HomePage extends StatelessWidget {
                     onPressed: (){ 
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                     },
-                    color: Color(0xFF2438BB),
+                    color: Color(0xff8455b3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)
                     ),

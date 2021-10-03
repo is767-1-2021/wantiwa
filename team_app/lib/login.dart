@@ -6,8 +6,10 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar
-      (backgroundColor: Colors.orange,
-        title: Text(""),),
+      (backgroundColor: Colors.deepPurple[700],
+      leading: IconButton(onPressed: () {Navigator.push(context,MaterialPageRoute(
+          builder: (context) => SignUpPage()));}, icon: Icon(Icons.arrow_back_outlined))),     
+        
 
                  body: Container(
         child: Padding(
@@ -87,7 +89,7 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.indigo.shade900,
+                        primary: Colors.deepPurple[700],
                       ),
                       child: Text("Login", style: TextStyle(fontSize: 20,)),
                       onPressed: () {},
@@ -106,8 +108,8 @@ class LoginPage extends StatelessWidget {
 
                             TextButton(
                             style: TextButton.styleFrom(
-                            primary: Colors.blueAccent,
-                            textStyle:const TextStyle(fontSize:14, color: Colors.blueAccent)
+                            primary: Colors.deepPurple,
+                            textStyle:const TextStyle(fontSize:14, color: Colors.deepPurple)
                             ), onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));},
                             child: const Text("Sign Up"),),
                             ],
