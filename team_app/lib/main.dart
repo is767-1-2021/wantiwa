@@ -9,7 +9,7 @@ import 'package:team_app/signup.dart';
 void main () {
 runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: LoginPage(),
+  home: HomePage(),
 )); 
 }
 
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height /2,
                 decoration: BoxDecoration(
                   image: DecorationImage( 
-                    image: AssetImage("image/mall.png")
+                    image: AssetImage("image/WeDeal_logo.png")
                   )
                 ),
               ),
