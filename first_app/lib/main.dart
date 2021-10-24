@@ -1,5 +1,8 @@
+import 'package:first_app/controllers/todo.dart';
 import 'package:first_app/model/first_form_model.dart';
 import 'package:first_app/pages/eighth_page.dart';
+import 'package:first_app/pages/todo_page.dart';
+import 'package:first_app/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,16 +15,35 @@ import 'pages/sixth_page.dart';
 import 'pages/third_page.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-      create: (context) => FirstFormModel(),
-        ),
-      ],
-      child: MyApp(),
-    ), 
-  );
+  var services = HttpServices();
+  var controller = TodoController(services);
+
+  //runApp(
+  //  MultiProvider(
+    //  providers: [
+      //  ChangeNotifierProvider(
+      //create: (context) => FirstFormModel(),
+        //),
+      //],
+     // child: MyApp(),
+    //), 
+ // );
+//}
+  runApp(TodoApp(controller: controller));
+}
+
+class TodoApp extends StatelessWidget {  
+  final TodoController controller;
+  TodoApp({required this.controller});
+
+  @override 
+  Widget build(BuildContext context) {  
+    return MaterialApp(  
+      home: TodoPage(  
+        controller: controller,
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
