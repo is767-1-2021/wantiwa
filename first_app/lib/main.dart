@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/controllers/todo.dart';
 import 'package:first_app/model/first_form_model.dart';
 import 'package:first_app/pages/eighth_page.dart';
@@ -14,9 +15,15 @@ import 'pages/seventh_page.dart';
 import 'pages/sixth_page.dart';
 import 'pages/third_page.dart';
 
-void main() {
-  var services = HttpServices();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); 
+
+  var services = FirebaseServices();
   var controller = TodoController(services);
+
+  runApp(TodoApp(controller: controller));
+}
 
   //runApp(
   //  MultiProvider(
@@ -29,8 +36,7 @@ void main() {
     //), 
  // );
 //}
-  runApp(TodoApp(controller: controller));
-}
+  
 
 class TodoApp extends StatelessWidget {  
   final TodoController controller;

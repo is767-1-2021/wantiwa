@@ -1,6 +1,7 @@
 import 'package:first_app/controllers/todo.dart';
 import 'package:first_app/model/todo.dart';
 import 'package:flutter/material.dart';
+import 'package:first_app/services/services.dart';
 
 class TodoPage extends StatefulWidget{
   final TodoController controller;
@@ -20,8 +21,7 @@ class _TodoPageState extends State<TodoPage> {
     super.initState();
 
     widget.controller.onSync.listen(
-      (bool synState) => setState(() => isLoading = synState )
-    );
+      (bool synState) => setState(() => isLoading = synState));
   }
   
   void _getTodos() async { 
@@ -30,6 +30,10 @@ class _TodoPageState extends State<TodoPage> {
     setState(() { 
       todos = newTodos;
     });
+  }
+
+  void _updateTodos(int id, bool completed) async {
+    await widget.controller.updateTodos(id, completed);
   }
 
   Widget get body => isLoading
@@ -41,13 +45,18 @@ class _TodoPageState extends State<TodoPage> {
         return Text ("Tap button to fetch Todos");
       }
 
-      return CheckboxListTile(  
-        onChanged: null,
-        value: todos[index].completed,
-        title: Text(todos[index].title),
-      );
-    },
-  );
+      return CheckboxListTile(
+              onChanged: (bool? completed) {
+                setState(() {
+                  todos[index].completed = completed!;
+                  _updateTodos(todos[index].id, completed);
+                });
+              },
+              value: todos[index].completed,
+              title: Text(todos[index].title),
+            );
+          },
+        );
 
   @override 
   Widget build(BuildContext context) { 
