@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:team_app/signup.dart';
+import 'package:team_app/controllers/deal_controller.dart';
+import 'package:team_app/deal_page.dart';
+import 'package:team_app/register.dart';
+import 'package:team_app/screens/signup_screen.dart';
+import 'package:team_app/services/deal_services.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.deepPurple[700],
+          backgroundColor: Colors.deepPurple.shade500,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -16,6 +22,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key}) : super(key: key);
@@ -43,9 +50,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 Text(
                   "WeDeal",
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 30,
-                      color: Colors.black54),
+                    fontFamily: 'IBMPlexSansThai',
+                      fontWeight: FontWeight.w300,
+                      fontSize: 40,
+                      color: Colors.deepPurple.shade900),
                 ),
                 SizedBox(
                   height: 20,
@@ -57,12 +65,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       fontSize: 20,
                       color: Colors.black87),
                 ),
-                SizedBox(height: 20),
-
+                
                 //Text("Email", style: TextStyle(fontSize: 16)),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                  autocorrect: false,
+                  decoration: InputDecoration(fillColor: Colors.white10, filled: true,
                       prefixIcon: Icon(Icons.email_outlined),
                       labelText: 'Email',
                       hintText: 'Please input your Email',
@@ -140,9 +148,49 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             style: TextStyle(
                               fontSize: 20,
                             )),
-                        onPressed: () {
+                        onPressed: () async {
+                          var services = FirebaseServices();
+                          var controller = DealController(services);
+
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+
+                            /*check email ถ้าไม่มีใน database ให้ฟ้อง*/
+                            if (!EmailValidator.validate(_email!)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Please input the valid Email')));
+                            }
+
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: _email!, password: _password!)
+                                  .then((value) {
+                                /*ถ้าเช็คเมล์กับพาสเวิร์ดแล้ว ให้มันไปรีเซตค่าในฟอร์ม*/
+                                _formKey.currentState!.reset();
+                                /*login สำเร็จ*/
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DealPage()));
+                              });
+                              /*e = error try on catch เป็นการแจ้งว่ามี exit route เดิมไปแล้ว*/
+                              /*เป็น default code*/
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'No user found for This Email')));
+                              } else if (e.code == 'wrong-password') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Email or password is incorrect')));
+                              }
+                            }
                           }
                         })),
                 Container(
@@ -162,7 +210,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpPage()));
+                                  builder: (context) => SignUpScreen()));
                         },
                         child: const Text("Sign Up"),
                       ),
@@ -189,32 +237,32 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Container(
-                            height: 55.0,
-                            width: 55.0,
+                            height: 60.0,
+                            width: 60.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                               image: AssetImage("image/facebook.png"),
                             )),
                           ),
                           Container(
-                            height: 55.0,
-                            width: 55.0,
+                            height: 60.0,
+                            width: 60.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                               image: AssetImage("image/google.png"),
                             )),
                           ),
                           Container(
-                            height: 55.0,
-                            width: 55.0,
+                            height: 60.0,
+                            width: 60.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                               image: AssetImage("image/line.png"),
                             )),
                           ),
                           Container(
-                            height: 55.0,
-                            width: 55.0,
+                            height: 60.0,
+                            width: 60.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                               image: AssetImage("image/twitter.png"),

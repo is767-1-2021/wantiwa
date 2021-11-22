@@ -1,97 +1,66 @@
-// ignore: unused_import
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_app/edit_profile.dart';
+import 'package:team_app/firstpage.dart';
+import 'package:team_app/historyPageDeal.dart';
+import 'package:team_app/join_deal.dart';
 import 'package:team_app/login.dart';
-import 'package:team_app/screen/home_screen.dart';
-import 'package:team_app/signup.dart';
+import 'package:team_app/nav.dart';
+import 'package:provider/provider.dart';
+import 'package:team_app/screens/auth_screen.dart';
+import 'package:team_app/screens/chat_screen.dart';
+import 'package:team_app/screens/login_screen.dart';
+import 'package:team_app/screens/signup_screen.dart';
+import 'package:team_app/services/deal_services.dart';
+import 'controllers/deal_controller.dart';
+import 'deal_page.dart';
+import 'model/user_model.dart';
+import 'profile.dart';
+import 'package:firebase_core/firebase_core.dart';
 
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
+  var services = FirebaseServices();
+  var controller = DealController(services);
 
-void main () {
-runApp(MaterialApp(
-  debugShowCheckedModeBanner: false,
-  home: HomePage(),
-)); 
+  runApp(DealApp(
+    controller: controller,
+  ));
 }
 
-class HomePage extends StatelessWidget {
-  
+class DealApp extends StatelessWidget {
+  final DealController controller;
+  DealApp({required this.controller});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "WeDeal",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize:35,
-                  color: Colors.indigo.shade900,
-                ),),
-
-              Container(
-                height: MediaQuery.of(context).size.height /2,
-                decoration: BoxDecoration(
-                  image: DecorationImage( 
-                    image: AssetImage("image/WeDeal_logo.png")
-                  )
-                ),
-              ),
-
-                Column(  
-                  children: <Widget>[ 
-                    MaterialButton(
-                      minWidth: double.infinity,
-                      height: 60,
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                      },
-                      color: Color(0xff8455b3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)
-                      ),
-                      child: Text( 
-                      "LOGIN",
-                      style: TextStyle( 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.white
-                    ),
-                      ),
-                    ),
-                  SizedBox(height:10),
-                  MaterialButton(
-                    minWidth: double.infinity,
-                    height:60,
-                    onPressed: (){ 
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
-                    },
-                    color: Color(0xff8455b3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    child: Text(
-                      "SIGN UP",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18 
-                      ),
-                    )
-                    
-                  )
-                  ]
-                )
-            ]
-        ),
-          ),
-        )
+    return MaterialApp(
+      theme: ThemeData(
+          primaryColor: Colors.deepPurple[900],
+          fontFamily: 'IBM Plex Sans Thai'),
+      debugShowCheckedModeBanner: false,
+      home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              return SignUpScreen(); /*ต้องแก้เป็น DealPage*/
+            }
+            // return AuthScreen();
+            return HomePage();
+          }),
     );
+  }
 }
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // home: HomePage(),
+      // initialRoute: '/Nav',
+    );
+  }
 }
