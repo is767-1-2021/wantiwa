@@ -71,16 +71,18 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
                   decoration: InputDecoration(fillColor: Colors.white10, filled: true,
-                      prefixIcon: Icon(Icons.email_outlined),
+                      prefixIcon: Icon(Icons.email_outlined,
+                        color: Colors.black87),
                       labelText: 'Email',
                       hintText: 'Please input your Email',
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.grey.shade500),
                       ),
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400))),
+                          borderSide: BorderSide(color: Colors.grey.shade500))),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter Email';
@@ -99,17 +101,20 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock_clock_outlined),
-                      suffixIcon: Icon(Icons.visibility_off_outlined),
+                      prefixIcon: Icon(Icons.lock_clock_outlined,
+                      color: Colors.black87),
+                      suffixIcon: Icon(Icons.visibility_off_outlined,
+                      color: Colors.black87),
                       labelText: 'Password',
                       hintText: 'Please input your Password',
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.grey.shade500),
                       ),
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400))),
+                          borderSide: BorderSide(color: Colors.grey.shade500))),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter Password';
@@ -131,7 +136,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       style: TextButton.styleFrom(
                           primary: Colors.black45,
                           textStyle: const TextStyle(
-                              fontSize: 14, color: Colors.black54)),
+                              fontSize: 14, color: Colors.black87)),
                       onPressed: () {},
                       child: const Text("Forgot Password?"),
                     ),
@@ -199,7 +204,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     children: <Widget>[
                       Text(
                         "Don't have an account?",
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -210,7 +215,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpScreen()));
+                                  builder: (context) => SignUpPage()));
                         },
                         child: const Text("Sign Up"),
                       ),
@@ -222,12 +227,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     children: <Widget>[
                       Text(
                         "- Or -",
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                        style: TextStyle(fontSize: 14, color: Colors.black87),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "Sign In with",
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                        style: TextStyle(fontSize: 14, color: Colors.black87),
                       ),
                       SizedBox(
                         height: 30,

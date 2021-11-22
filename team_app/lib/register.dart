@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:team_app/deal_page.dart';
 import 'package:team_app/login.dart';
 import 'package:team_app/nav.dart';
+import 'package:team_app/services/deal_services.dart';
+
+import 'controllers/deal_controller.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
@@ -21,11 +27,35 @@ class MyCustomForm extends StatefulWidget {
 
 class _MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
-  String? _name;
-  String? _phone;
-  String? _email;
+  String? _fullname;
+  String? _gender;
+  DateTime? _birthday;
+  String? _phoneNo;
   String? _password;
-  String? _confirm;
+  String? _confirmPassword;
+  String? _email;
+  String? _uid;
+  bool? _isLoggedIn;
+  String? _userNameString;
+  bool _isLoading = false;
+
+  bool _obsecureTextSignup = true;
+  bool _obsecureTextSignupConfirm = true;
+
+  bool _isPasswordSixLetters = false;
+  bool _hasPasswordOneNumber = false;
+
+  onPasswordChange(String value) {
+    final numericRegex = RegExp(r'[0-9]');
+
+    setState(() {
+      _isPasswordSixLetters = false;
+      if (value.length >= 6) _isPasswordSixLetters = true;
+
+      _hasPasswordOneNumber = false;
+      if (numericRegex.hasMatch(value)) _hasPasswordOneNumber = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,28 +72,30 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   Text(
                     "WeDeal",
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        color: Colors.black54),
+                        fontFamily: 'IBMPlexSansThai',
+                      fontWeight: FontWeight.w300,
+                      fontSize: 40,
+                      color: Colors.deepPurple.shade900),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-
-                  //Text("Name", style: TextStyle(fontSize: 14)),
                   TextFormField(
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person_add_outlined),
+                          prefixIcon: Icon(Icons.person_add_outlined,
+                          color: Colors.black87),
                           labelText: 'Name',
-                          hintText: 'Please input your Name',
+                          hintText: 'Please input your username',
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400))),
+                                  BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter Name';
@@ -72,7 +104,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         return null;
                       },
                       onSaved: (value) {
-                        _name = value;
+                        _userNameString = value;
                       }),
 
                   SizedBox(
@@ -81,17 +113,20 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   //Text("Phone Number", style: TextStyle(fontSize: 14)),
                   TextFormField(
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone_android_outlined),
+                          prefixIcon: Icon(Icons.phone_android_outlined,
+                          color: Colors.black87),
                           labelText: 'Phone Number',
                           hintText: 'Please input your Phone Number',
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400))),
+                                  BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter Phone Number';
@@ -100,27 +135,29 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         return null;
                       },
                       onSaved: (value) {
-                        _phone = value;
+                        _phoneNo = value;
                       }),
 
                   SizedBox(
                     height: 7,
                   ),
-                  //Text("Email", style: TextStyle(fontSize: 14)),
                   TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email_outlined),
+                          prefixIcon: Icon(Icons.email_outlined,
+                          color: Colors.black87),
                           labelText: 'Email',
                           hintText: 'Please input your Email',
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400))),
+                                  BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter Email';
@@ -135,22 +172,25 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   SizedBox(
                     height: 7,
                   ),
-                  //Text("Password", style: TextStyle(fontSize: 14)),
                   TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock_clock_outlined),
-                          suffixIcon: Icon(Icons.visibility_off_outlined),
+                          prefixIcon: Icon(Icons.lock_clock_outlined,
+                          color: Colors.black87),
+                          suffixIcon: Icon(Icons.visibility_off_outlined,
+                          color: Colors.black87),
                           labelText: 'Password',
                           hintText: 'Please input your Password',
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400))),
+                                  BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter Password';
@@ -165,22 +205,25 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   SizedBox(
                     height: 7,
                   ),
-                  //Text("Confirm Password", style: TextStyle(fontSize: 14)),
                   TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock_outline),
-                          suffixIcon: Icon(Icons.visibility_off_outlined),
+                          prefixIcon: Icon(Icons.lock_outline,
+                          color: Colors.black87),
+                          suffixIcon: Icon(Icons.visibility_off_outlined,
+                          color: Colors.black87),
                           labelText: 'Confirm Password',
                           hintText: 'Please input your Confirm Password',
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400))),
+                                  BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter Confirm Password';
@@ -189,35 +232,63 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         return null;
                       },
                       onSaved: (value) {
-                        _password = value;
+                        _confirmPassword = value;
                       }),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
+                      SizedBox(
+                      height: 10,
+                    ),
+                  /*ปุ่ม SignUp*/
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
                             primary: Colors.deepPurple[700]),
-                        child: Text("Sign Up", style: TextStyle(fontSize: 18)),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                          }
-                          var controller;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Nav(
-                                        controller: controller,
-                                      )));
-                        }),
-                  ),
-                  SizedBox(height: 10),
+                            child: Text('Signup',
+                            style: TextStyle(
+                              fontSize: 20,)),
+                            onPressed: () async {
+                              var services = FirebaseServices();
+                              var controller = DealController(services);
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+
+                                UserCredential userCredential;
+                                userCredential = await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: _email!, password: _password!);
+                            
+                                await FirebaseFirestore.instance
+                                    .collection('group_users')
+                                    .doc(userCredential.user!.uid)
+                                    .set({
+                                  /*mapping*/
+                                  'userId': userCredential.user!.uid,
+                                  'userName': _userNameString,
+                                  'email': _email,
+                                  'password': _password,
+                                  'phoneNo': _phoneNo,
+                                  'isLoggedIn': false,
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Signup Successful! Lets Join WeDeal')));
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DealPage()));
+                              }
+                            },
+                          ),
+                        ),
+                  SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         "Already have an account?",
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -225,7 +296,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             textStyle: const TextStyle(
                                 fontSize: 16, color: Colors.deepPurple)),
                         onPressed: () {
-                          /*เขียนคล้ายๆ addDeal เป็น collection group_user*/
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -235,21 +305,21 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 5),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
                           "- Or -",
-                          style: TextStyle(fontSize: 14, color: Colors.black54),
+                          style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(height: 10),
                         Text(
                           "Sign Up with",
-                          style: TextStyle(fontSize: 14, color: Colors.black54),
+                          style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 15,
                         ),
                         //ใส่รูป
                         Row(

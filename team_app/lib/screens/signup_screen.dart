@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:team_app/deal_page.dart';
+import 'package:team_app/login.dart';
 import 'package:team_app/screens/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -54,6 +56,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     _formKey.currentState!.save();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => DealPage())); /* สมัครแล้วควรไปหน้าไหน */
 
     /*set เวลากดปุ่ม signUp จะให้ขึ้นเป็น CircularProgressIndicator*/
     setState(() {
@@ -294,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
+                                  builder: (context) => LoginPage()));
                         },
                         child: const Text("Sign In"),
                       ),
