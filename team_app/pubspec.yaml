@@ -90,8 +90,12 @@ flutter:
      - image/proUniqlo.jpg
      - image/proKoi.jpg
      - image/HOTPOT4BUY3.jpg
-
-
+     - image/logo1.jpg
+     - image/logo2.jpg
+     - image/logo3.jpg
+     - image/logo4.jpg
+     - image/bg2.png
+     - image/bg3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

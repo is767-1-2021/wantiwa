@@ -6,51 +6,56 @@ import 'package:team_app/register.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomePage(),
-  ));
+    title: 'WeDeal',
+    theme: ThemeData(
+      scaffoldBackgroundColor: Colors.white,),
+      home: HomePage(),
+  ),);
 }
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
-              colors: [
-            Color(0xFF612F7D),
-            Color(0xFF420F65),
-          ])),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Container(
+    return Scaffold(
+        body: Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+            decoration: BoxDecoration(
+            image: DecorationImage(
+                            image: AssetImage("image/bg2.png"),
+                            fit: BoxFit.fill,)),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    "WeDeal",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 35,
-                      color: Colors.indigo.shade900,
-                    ),
+                  RichText(
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.display3,
+                    children: [
+                    TextSpan(
+                      text: "We",
+                      style: TextStyle (
+                      fontFamily: 'IBMPlexSansThai',
+                      color: Colors.amber.shade500)
                   ),
+                  TextSpan(
+                      text: "Deal",
+                      style: TextStyle(
+                      fontFamily: 'IBMPlexSansThai',
+                      color: Colors.deepPurple.shade600, 
+                        fontWeight: FontWeight.bold),
+                  ),],),),
+                  SizedBox(height: 20),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    decoration: BoxDecoration(
+                            height: 320.0,
+                            width: 320.0,
+                            decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("image/WeDeal_logo.png"))),
+                            image: AssetImage("image/logo4.jpg"))),
                   ),
+                  SizedBox(height: 20),
                   Column(children: <Widget>[
                     MaterialButton(
-                      minWidth: double.infinity,
-                      height: 60,
+                      minWidth:270,
+                      height: 50,
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -59,7 +64,7 @@ class HomePage extends StatelessWidget {
                       },
                       color: Color(0xff8455b3),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                          borderRadius: BorderRadius.circular(15)),
                       child: Text(
                         "LOGIN",
                         style: TextStyle(
@@ -68,10 +73,10 @@ class HomePage extends StatelessWidget {
                             color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     MaterialButton(
-                        minWidth: double.infinity,
-                        height: 60,
+                        minWidth: 270,
+                        height: 50,
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -80,7 +85,7 @@ class HomePage extends StatelessWidget {
                         },
                         color: Color(0xff8455b3),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
+                            borderRadius: BorderRadius.circular(15)),
                         child: Text(
                           "SIGN UP",
                           style: TextStyle(
@@ -91,8 +96,7 @@ class HomePage extends StatelessWidget {
                   ])
                 ]),
           ),
-        ),
-      ),
-    );
+        );
   }
 }
+

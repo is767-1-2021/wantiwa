@@ -36,13 +36,13 @@ class DealApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primaryColor: Colors.deepPurple[900],
+          scaffoldBackgroundColor: Colors.white,
           fontFamily: 'IBM Plex Sans Thai'),
       debugShowCheckedModeBanner: false,
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapShot) {
-            return SignUpPage();
+            return HomePage();
           }),
     );
   }
