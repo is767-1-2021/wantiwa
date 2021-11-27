@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:team_app/controllers/deal_controller.dart';
 import 'package:team_app/deal_page.dart';
 import 'package:team_app/register.dart';
-import 'package:team_app/screens/signup_screen.dart';
 import 'package:team_app/services/deal_services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +21,6 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key}) : super(key: key);
@@ -50,7 +48,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 Text(
                   "WeDeal",
                   style: TextStyle(
-                    fontFamily: 'IBMPlexSansThai',
+                      fontFamily: 'IBMPlexSansThai',
                       fontWeight: FontWeight.w300,
                       fontSize: 40,
                       color: Colors.deepPurple.shade900),
@@ -65,14 +63,16 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       fontSize: 20,
                       color: Colors.black87),
                 ),
-                
+
                 //Text("Email", style: TextStyle(fontSize: 16)),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
-                  decoration: InputDecoration(fillColor: Colors.white10, filled: true,
-                      prefixIcon: Icon(Icons.email_outlined,
-                        color: Colors.black87),
+                  decoration: InputDecoration(
+                      fillColor: Colors.white10,
+                      filled: true,
+                      prefixIcon:
+                          Icon(Icons.email_outlined, color: Colors.black87),
                       labelText: 'Email',
                       hintText: 'Please input your Email',
                       contentPadding:
@@ -102,9 +102,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   obscureText: true,
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock_clock_outlined,
-                      color: Colors.black87),
+                          color: Colors.black87),
                       suffixIcon: Icon(Icons.visibility_off_outlined,
-                      color: Colors.black87),
+                          color: Colors.black87),
                       labelText: 'Password',
                       hintText: 'Please input your Password',
                       contentPadding:

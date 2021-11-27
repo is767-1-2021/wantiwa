@@ -4,13 +4,15 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:team_app/controllers/deal_controller.dart';
 import 'package:team_app/model/deal_model.dart';
 import 'package:flutter/material.dart';
-import 'package:team_app/nav.dart';
 import 'package:team_app/profile.dart';
 import 'package:team_app/screens/chat_screen.dart';
 import 'package:team_app/services/deal_services.dart';
 import 'around_you.dart';
 import 'create_deal.dart';
 import 'join_deal.dart';
+import 'model/deal_model2.dart';
+import 'model/user_model2.dart';
+import 'package:provider/provider.dart';
 
 class DealPage extends StatefulWidget {
   var controller;
@@ -28,6 +30,7 @@ class _DealPageState extends State<DealPage> {
   List<Deal> deals = List.empty();
   bool isLoading = false;
   int _selectedIndex = 0;
+  bool _isFavorited = false;
   var controller;
 
   _DealPageState(this.controller);
@@ -35,6 +38,14 @@ class _DealPageState extends State<DealPage> {
   @override
   void initState() {
     _getDeals();
+    var ds = FirebaseServices();
+    var dealList = ds.getFromFirebase(context.read<UserModel>().uid);
+    dealList.then((value) {
+      context.read<DealModel>().dealList = value;
+      print(context.read<DealModel>().dealID);
+      print(context.read<UserModel>().uid);
+    });
+
     super.initState();
 
     widget.controller.onSync
@@ -49,10 +60,24 @@ class _DealPageState extends State<DealPage> {
     });
   }
 
+  void _toggleFavorite() {
+    setState(() {
+      if (_isFavorited) {
+        _isFavorited = false;
+      } else {
+        _isFavorited = true;
+      }
+    });
+  }
+
+  void _updateFavDeal(int index, bool isFav) async {
+    await FirebaseServices().updateFavDeal(index, !deals[index].isFav);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: Text('Enjoy with the best Deal!',
@@ -89,36 +114,39 @@ class _DealPageState extends State<DealPage> {
                                 'Upcoiming Deal : ${deals.length.toString()} Deals Now!',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w900,
-                                    color: Colors.white),
+                                    color: Colors.deepPurple),
                               )),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    height: MediaQuery.of(context).size.height * 1.5,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.all(10),
                       itemCount: deals.isEmpty ? 1 : deals.length,
                       itemBuilder: (BuildContext context, int index) {
-                        Deal ds = deals[index];
-                        if (deals.isNotEmpty) {
+                        var ds;
+                        if (deals.length != 0) {
+                          ds = deals[index];
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => JoinDeal(ds: ds)),
+                                    builder: (context) => DealDetail2(
+                                        ds: ds, controller: controller)),
                               );
                             },
                             child: Card(
-                              color: Colors.grey[100],
+                              color: Colors.white,
+                              shadowColor: Colors.grey[200],
                               margin: EdgeInsets.only(
                                   top: 5.0, right: 5.0, left: 5.0),
                               shape: Border(
                                   left: BorderSide(
-                                      color: Colors.pink, width: 5.0)),
+                                      color: Colors.amber, width: 5.0)),
                               child: Container(
                                 width: double.infinity,
                                 height: 100.0,
@@ -167,7 +195,7 @@ class _DealPageState extends State<DealPage> {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: TextStyle(
-                                                  color: Colors.deepPurple[900],
+                                                  color: Colors.deepPurple,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18.0)),
                                           Text(deals[index].caption,
@@ -203,13 +231,29 @@ class _DealPageState extends State<DealPage> {
                                     Expanded(
                                       flex: 1,
                                       child: SizedBox(
-                                          width: 35.0,
-                                          height: 35.0,
-                                          child: IconButton(
-                                            icon: Icon(Icons.favorite_outline),
-                                            onPressed: () {},
-                                          )),
-                                    ),
+                                        width: 35.0,
+                                        height: 35.0,
+                                        child: IconButton(
+                                            icon: deals[index].isFav
+                                                ? Icon(Icons.favorite_outline)
+                                                : Icon(Icons.favorite),
+                                            color: Colors.red,
+                                            iconSize: 18,
+                                            onPressed: () async {
+                                              setState(
+                                                () {
+                                                  if (deals[index].isFav) {
+                                                    deals[index].isFav = false;
+                                                  } else {
+                                                    deals[index].isFav = true;
+                                                  }
+                                                  _updateFavDeal(index,
+                                                      !deals[index].isFav);
+                                                },
+                                              );
+                                            }),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -226,7 +270,7 @@ class _DealPageState extends State<DealPage> {
       ),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.deepPurple[900],
+        backgroundColor: Colors.deepPurple,
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.pushReplacement(
@@ -241,7 +285,7 @@ class _DealPageState extends State<DealPage> {
         selectedFontSize: 14.0,
         items: [
           BottomNavigationBarItem(
-            backgroundColor: Colors.deepPurple[900],
+            backgroundColor: Colors.deepPurple,
             icon: InkWell(
               child: Icon(Icons.home, color: Colors.white),
               onTap: () {},
@@ -262,7 +306,7 @@ class _DealPageState extends State<DealPage> {
                 child: Icon(Icons.person, color: Colors.white),
                 onTap: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
+                      MaterialPageRoute(builder: (context) => Profile2Page()));
                 }),
             label: 'Profile',
           ),

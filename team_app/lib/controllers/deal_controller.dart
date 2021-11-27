@@ -5,6 +5,7 @@ import 'package:team_app/services/deal_services.dart';
 class DealController {
   final Services services;
   List<Deal> deals = List.empty();
+  List<Deal> favdeals = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
@@ -18,9 +19,18 @@ class DealController {
     return deals;
   }
 
-  // Future<void> updateTodos(int id, bool completed) async {
-  //   onSyncController.add(true);
-  //   await services.updateTodos(id, completed);
-  //   onSyncController.add(false);
-  // }
+  Future<List<Deal>> fectFavDeals() async {
+    onSyncController.add(true);
+    favdeals = await services.getFavDeals();
+    onSyncController.add(false);
+    return favdeals;
+  }
+
+  Future<void> updateFavDeal(int i, bool isFav) async {
+    await services.updateFavDeal(i, isFav);
+  }
+
+  Future<void> updateDeals(String uid, bool isClosed) async {
+    await services.updateDeals(uid, isClosed);
+  }
 }

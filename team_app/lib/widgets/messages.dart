@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:team_app/widgets/msg_bubble.dart';
+
+import 'msg_bubble.dart';
 
 class Messages extends StatelessWidget {
   @override

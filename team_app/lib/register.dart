@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:team_app/deal_page.dart';
 import 'package:team_app/login.dart';
-import 'package:team_app/nav.dart';
 import 'package:team_app/services/deal_services.dart';
 
 import 'controllers/deal_controller.dart';
@@ -73,9 +72,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     "WeDeal",
                     style: TextStyle(
                         fontFamily: 'IBMPlexSansThai',
-                      fontWeight: FontWeight.w300,
-                      fontSize: 40,
-                      color: Colors.deepPurple.shade900),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 40,
+                        color: Colors.deepPurple.shade900),
                   ),
                   SizedBox(
                     height: 20,
@@ -83,9 +82,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   TextFormField(
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.person_add_outlined,
-                          color: Colors.black87),
+                              color: Colors.black87),
                           labelText: 'Name',
-                          hintText: 'Please input your username',
+                          hintText: 'Please input your Fullname',
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           enabledBorder: OutlineInputBorder(
@@ -93,7 +92,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
@@ -104,7 +103,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         return null;
                       },
                       onSaved: (value) {
-                        _userNameString = value;
+                        _fullname = value;
                       }),
 
                   SizedBox(
@@ -114,7 +113,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   TextFormField(
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.phone_android_outlined,
-                          color: Colors.black87),
+                              color: Colors.black87),
                           labelText: 'Phone Number',
                           hintText: 'Please input your Phone Number',
                           contentPadding:
@@ -124,7 +123,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
@@ -144,8 +143,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email_outlined,
-                          color: Colors.black87),
+                          prefixIcon:
+                              Icon(Icons.email_outlined, color: Colors.black87),
                           labelText: 'Email',
                           hintText: 'Please input your Email',
                           contentPadding:
@@ -155,7 +154,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
@@ -176,9 +175,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       obscureText: true,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.lock_clock_outlined,
-                          color: Colors.black87),
+                              color: Colors.black87),
                           suffixIcon: Icon(Icons.visibility_off_outlined,
-                          color: Colors.black87),
+                              color: Colors.black87),
                           labelText: 'Password',
                           hintText: 'Please input your Password',
                           contentPadding:
@@ -188,7 +187,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
@@ -208,10 +207,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock_outline,
-                          color: Colors.black87),
+                          prefixIcon:
+                              Icon(Icons.lock_outline, color: Colors.black87),
                           suffixIcon: Icon(Icons.visibility_off_outlined,
-                          color: Colors.black87),
+                              color: Colors.black87),
                           labelText: 'Confirm Password',
                           hintText: 'Please input your Confirm Password',
                           contentPadding:
@@ -221,7 +220,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             borderSide: BorderSide(color: Colors.grey.shade500),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   BorderSide(color: Colors.grey.shade500))),
                       validator: (value) {
@@ -234,9 +233,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       onSaved: (value) {
                         _confirmPassword = value;
                       }),
-                      SizedBox(
-                      height: 10,
-                    ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   /*ปุ่ม SignUp*/
                   _isLoading
                       ? CircularProgressIndicator()
@@ -244,10 +243,11 @@ class _MyCustomFormState extends State<MyCustomForm> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                            primary: Colors.deepPurple[700]),
+                                primary: Colors.deepPurple[700]),
                             child: Text('Signup',
-                            style: TextStyle(
-                              fontSize: 20,)),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                )),
                             onPressed: () async {
                               var services = FirebaseServices();
                               var controller = DealController(services);
@@ -258,17 +258,18 @@ class _MyCustomFormState extends State<MyCustomForm> {
                                 userCredential = await FirebaseAuth.instance
                                     .createUserWithEmailAndPassword(
                                         email: _email!, password: _password!);
-                            
+
                                 await FirebaseFirestore.instance
                                     .collection('group_users')
                                     .doc(userCredential.user!.uid)
                                     .set({
                                   /*mapping*/
-                                  'userId': userCredential.user!.uid,
-                                  'userName': _userNameString,
+                                  'uid': userCredential.user!.uid,
+                                  'fullname': _fullname,
                                   'email': _email,
-                                  'password': _password,
                                   'phoneNo': _phoneNo,
+                                  'image':
+                                      'https://firebasestorage.googleapis.com/v0/b/is-project01.appspot.com/o/user_image%2Fuser03.png?alt=media&token=9b32b994-d8f1-4982-8145-e8b890d3ccbc',
                                   'isLoggedIn': false,
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(

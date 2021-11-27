@@ -5,14 +5,14 @@ import 'package:team_app/firstpage.dart';
 import 'package:team_app/historyPageDeal.dart';
 import 'package:team_app/join_deal.dart';
 import 'package:team_app/login.dart';
-import 'package:team_app/nav.dart';
 import 'package:provider/provider.dart';
-import 'package:team_app/register.dart';
 import 'package:team_app/screens/chat_screen.dart';
 import 'package:team_app/services/deal_services.dart';
 import 'controllers/deal_controller.dart';
 import 'deal_page.dart';
+import 'model/deal_model2.dart';
 import 'model/user_model.dart';
+import 'model/user_model2.dart';
 import 'profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -34,15 +34,26 @@ class DealApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          fontFamily: 'IBM Plex Sans Thai'),
-      debugShowCheckedModeBanner: false,
-      home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapShot) {
-            return HomePage();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserModel()),
+        Provider(create: (context) => UserDB()),
+        ChangeNotifierProvider(create: (context) => DealModel()),
+        Provider(create: (context) => DealDB()),
+      ],
+      child: MaterialApp(
+          theme: ThemeData(
+              primaryColor: Colors.deepPurple,
+              fontFamily: 'IBM Plex Sans Thai'),
+          debugShowCheckedModeBanner: false,
+          home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapShot) {
+                return HomePage();
+              }),
+          routes: <String, WidgetBuilder>{
+            '/login': (context) => LoginPage(),
+            '/home': (context) => HomePage(),
           }),
     );
   }

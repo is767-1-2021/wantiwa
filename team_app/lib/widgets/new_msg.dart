@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_app/model/user_model2.dart';
+import 'package:provider/provider.dart';
 
 class NewMessage extends StatefulWidget {
   @override
@@ -8,7 +10,6 @@ class NewMessage extends StatefulWidget {
 }
 
 class _NewMessageState extends State<NewMessage> {
-  /*ตัวแปรและ controller ที่ต้องใช้*/
   var _enteredMsg = '';
   var msgCon = TextEditingController();
 
@@ -21,7 +22,6 @@ class _NewMessageState extends State<NewMessage> {
         children: [
           Expanded(
             child: TextFormField(
-              /*เซต controller เพื่อให้กดส่งแล้ว ข้อความใน field เป็น empty*/
               controller: msgCon,
               onChanged: (val) {
                 setState(() {
@@ -43,20 +43,20 @@ class _NewMessageState extends State<NewMessage> {
                 : () async {
                     FocusScope.of(context).unfocus();
                     FirebaseAuth _auth = FirebaseAuth.instance;
-                    /*ใครที่ Login เข้ามาดู auth.currentUser*/
-                    var userMsgdata = await FirebaseFirestore.instance
+                    var userdata = await FirebaseFirestore.instance
                         .collection('group_users')
                         .doc(_auth.currentUser!.uid)
                         .get();
-                    FirebaseFirestore.instance
+                    await FirebaseFirestore.instance
                         .collection('group_chats')
                         .doc()
                         .set({
                       'text': _enteredMsg,
                       'createdAt': Timestamp.now(),
                       'userId': _auth.currentUser!.uid,
-                      'username': userMsgdata['username'],
-                      'userImage': userMsgdata['userImage'],
+                      'username': _auth.currentUser!.email,
+                      'userImage':
+                          'https://firebasestorage.googleapis.com/v0/b/is-project01.appspot.com/o/user_image%2Fuser03.png?alt=media&token=9b32b994-d8f1-4982-8145-e8b890d3ccbc'
                     });
                     msgCon.clear();
                     setState(() {
