@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "290255966260",
+    "project_id": "is767-2021-wantiwa",
+    "storage_bucket": "is767-2021-wantiwa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290255966260:android:15db34a3f74c4f39327a61",
+        "android_client_info": {
+          "package_name": "com.example.final_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290255966260-6sgkmte12sqnf0mkjp91fsgrdb1rn8iu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGNXaz-fxWcDcWtNrhQBbhAAtxKp3Ib6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290255966260-6sgkmte12sqnf0mkjp91fsgrdb1rn8iu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
